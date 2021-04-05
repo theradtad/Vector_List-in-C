@@ -1,0 +1,4 @@
+https://dev.to/noah11012/templates-in-c-5b94
+https://www.geeksforgeeks.org/list-cpp-stl/
+https://aticleworld.com/implement-vector-in-c/
+https://www.hackerearth.com/practice/notes/standard-template-library/#:~:text=push_back(%20)%3A%20It%20adds%20a,complexity%20is%20O(1).
