@@ -15,8 +15,8 @@ struct list
     node* head;
     node* tail;
     int sz;
-    int& (*front)(const list *ptr_list);
-    int& (*back)(const list *ptr_list);
+    int (*front)(const list *ptr_list);
+    int (*back)(const list *ptr_list);
     void (*push_front)(list *ptr_list,int g);
     void (*push_back)(list *ptr_list,int g);
     void (*pop_front)(list *ptr_list);
@@ -28,6 +28,7 @@ struct list
     int (*size)(const list *ptr_list);
     void (*sort)(list *ptr_list);
     void (*clear)(list *ptr_list);
+    void (*swap)(list *ptr_list,list *ptr_list2);
 };
 
 void init(list* ptr_list);

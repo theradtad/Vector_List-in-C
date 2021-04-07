@@ -290,6 +290,23 @@ static void sort(list *ptr_list)
     return;    
 }
 
+void swap(list *ptr_list,list *ptr_list2)
+{
+    //check if same type
+    if(ptr_list->sz != ptr_list2->sz)
+    {
+        fprintf(stderr, "Error: List of different sizes \n");
+        exit(-1);
+    }
+    else
+    {
+        node* temp;
+        temp = ptr_list->head;
+        ptr_list->head = ptr_list2->head;
+        ptr_list2->head = temp;
+    }
+}
+
 void init(list *ptr_list)
 {
     ptr_list->head = NULL;
@@ -308,6 +325,7 @@ void init(list *ptr_list)
     ptr_list->size = size;
     ptr_list->sort = sort;
     ptr_list->clear = clear;
+    ptr_list->swap = swap;
 }
 
 // need to implement sort
