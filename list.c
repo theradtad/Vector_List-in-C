@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include "list.h"
 
 static int front(const list *ptr_list)
@@ -193,7 +192,7 @@ static void assign(list *ptr_list, int count, int value)
     ptr_list->sz = count;
 }
 
-static void remove(list *ptr_list,int value)
+static void remove_lst(list *ptr_list,int value)
 {
     node* cur = ptr_list->head;
     node* prev = NULL;
@@ -304,10 +303,14 @@ void swap(list *ptr_list,list *ptr_list2)
         temp = ptr_list->head;
         ptr_list->head = ptr_list2->head;
         ptr_list2->head = temp;
+
+        temp = ptr_list->tail;
+        ptr_list->tail = ptr_list2->tail;
+        ptr_list2->tail = temp;
     }
 }
 
-void init(list *ptr_list)
+void init_list(list *ptr_list)
 {
     ptr_list->head = NULL;
     ptr_list->tail = NULL;
@@ -320,7 +323,7 @@ void init(list *ptr_list)
     ptr_list->pop_back = pop_back;
     ptr_list->empty = empty;
     ptr_list->assign = assign; 
-    ptr_list->remove = remove;
+    ptr_list->remove = remove_lst;
     ptr_list->reverse = reverse;
     ptr_list->size = size;
     ptr_list->sort = sort;

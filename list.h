@@ -1,6 +1,8 @@
 #ifndef LIST_H
 #define LIST_H
 
+#include <stdbool.h>
+
 typedef struct node
 {
     int val;
@@ -31,7 +33,7 @@ struct list
     void (*swap)(list *ptr_list,list *ptr_list2);
 };
 
-void init(list* ptr_list);
+void init_list(list* ptr_list);
 
 #endif
 
