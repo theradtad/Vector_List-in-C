@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include "vector.h"
 
@@ -12,9 +11,13 @@ static int capacity(vector *ptr_vect)
 {
     return ptr_vect->cap;
 }
-static void resize(vector *ptr_vect, int n)
+static void resize(vector *ptr_vect, int n, int value)
 {
     int *arr = realloc(ptr_vect->arr, sizeof(int) * n);
+    for(int i=0;i<n;++i)
+    {
+        arr[i] = value;
+    }
     ptr_vect->arr = arr;
     ptr_vect->cap = n;
     ptr_vect->sz = n;
@@ -27,7 +30,7 @@ static bool empty(vector *ptr_vect)
     return false;
 }
 
-static int shrink_to_fit(vector *ptr_vect)
+static void shrink_to_fit(vector *ptr_vect)
 {
     int *arr = realloc(ptr_vect->arr, sizeof(int) * ptr_vect->sz);
     ptr_vect->cap = ptr_vect->sz;
@@ -64,7 +67,10 @@ static void push_back(vector *ptr_vect, int g)
     }
     else
     {
-        resize(ptr_vect, ptr_vect->cap+1);
+        int *arr = realloc(ptr_vect->arr, sizeof(int) * (ptr_vect->sz+1));
+        ptr_vect->arr = arr;
+        ptr_vect->sz+=1;
+        ptr_vect->cap+=1;
         ptr_vect->arr[ptr_vect->sz - 1] = g;
     }
 }
@@ -76,9 +82,15 @@ static void pop_back(vector *ptr_vect)
     }
 }
 
-static void insert(vector *ptr_vect, int position, int val);
+static void insert(vector *ptr_vect, int position, int val)
+{
+    ;
+}
 
-static void erase(vector *ptr_vect, int position);
+static void erase(vector *ptr_vect, int position)
+{
+    ;
+}
 
 static void clear(vector *ptr_vect)
 {
@@ -122,7 +134,7 @@ int* data(vector *ptr_vect)
     return ptr_vect->arr;
 }
 
-void init(vector *ptr_vect)
+void init_vector(vector *ptr_vect)
 {
     ptr_vect->arr = NULL;
     ptr_vect->sz = 0;

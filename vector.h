@@ -1,6 +1,8 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include <stdbool.h>
+
 typedef struct vector vector;
 
 struct vector
@@ -25,7 +27,7 @@ struct vector
     int* (*data)(vector *ptr_vect);
 };
 
-void init(vector* ptr_vect);
+void init_vector(vector* ptr_vect);
 #endif
 
 //reserve
