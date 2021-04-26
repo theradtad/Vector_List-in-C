@@ -3,12 +3,15 @@
 
 #include <stdbool.h>
 
+typedef struct iterator_list iterator_list;
+
 typedef struct node
 {
     int val;
     struct node* prev;
     struct node* next;
 }node;
+
 
 typedef struct list list;
 
@@ -31,9 +34,12 @@ struct list
     void (*sort)(list *ptr_list);
     void (*clear)(list *ptr_list);
     void (*swap)(list *ptr_list,list *ptr_list2);
+    iterator_list (*begin)(list *ptr_list);
+    iterator_list (*end)(list *ptr_list);
 };
 
 void init_list(list* ptr_list);
+
 
 #endif
 

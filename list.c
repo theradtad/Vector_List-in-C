@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "list.h"
+#include "iterator.h"
 
 static int front(const list *ptr_list)
 {
@@ -310,6 +311,20 @@ void swap(list *ptr_list,list *ptr_list2)
     }
 }
 
+iterator_list begin(list *ptr_list)
+{
+    iterator_list temp;
+    init_iterator_list(&temp, ptr_list, 'H');
+    return temp;
+}
+
+iterator_list end(list *ptr_list)
+{
+    iterator_list temp;
+    init_iterator_list(&temp, ptr_list, 'T');
+    return temp;
+}
+
 void init_list(list *ptr_list)
 {
     ptr_list->head = NULL;
@@ -329,6 +344,8 @@ void init_list(list *ptr_list)
     ptr_list->sort = sort;
     ptr_list->clear = clear;
     ptr_list->swap = swap;
+    ptr_list->begin = begin;
+    ptr_list->end = end;
 }
 
 // need to implement sort
