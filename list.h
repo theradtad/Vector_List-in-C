@@ -27,15 +27,31 @@ struct list
     void (*pop_front)(list *ptr_list);
     void (*pop_back)(list *ptr_list);
     bool (*empty)(const list *ptr_list);
+    void (*insert)(list *ptr_list, iterator_list iter_ptr,int num_ele, int ele);
+    void (*erase)(list *ptr_list, iterator_list iter_ptr);
     void (*assign)(list *ptr_list, int count, int value); 
     void (*remove)(list *ptr_list,int value);
+    void (*remove_if)(list *ptr_list, bool (*fn)(int value));
     void (*reverse)(list *ptr_list);
     int (*size)(const list *ptr_list);
+    void (*resize)(list *ptr_list, int count, int value);
     void (*sort)(list *ptr_list);
     void (*clear)(list *ptr_list);
+    void (*unique)(list *ptr_list);
     void (*swap)(list *ptr_list,list *ptr_list2);
+    void (*emplace_front)(list *ptr_list,int g);
+    void (*emplace_back)(list *ptr_list,int g);
+    void (*merge)(list *ptr_list,list *ptr_list2);
+    void (*splice)(list *ptr_list, iterator_list iter_ptr, list *ptr_list2);
+    iterator_list (*emplace)(list *ptr_list, iterator_list iter_ptr, int ele);
     iterator_list (*begin)(list *ptr_list);
     iterator_list (*end)(list *ptr_list);
+    iterator_list (*rbegin)(list *ptr_list);
+    iterator_list (*rend)(list *ptr_list);
+    iterator_list (*cbegin)(list *ptr_list);
+    iterator_list (*cend)(list *ptr_list);
+    iterator_list (*crbegin)(list *ptr_list);
+    iterator_list (*crend)(list *ptr_list);
 };
 
 void init_list(list* ptr_list);
@@ -43,16 +59,4 @@ void init_list(list* ptr_list);
 
 #endif
 
-// still need to add:
-// list::begin() and list::end() in C++ STL– begin() function returns an iterator pointing to the first element of the list
-// end()– end() function returns an iterator pointing to the theoretical last element which follows the last element.
-// list rbegin() and rend() function in C++ STL– rbegin() returns a reverse iterator which points to the last element of the list. 
-// rend() returns a reverse iterator which points to the position before the beginning of the list.
-// list cbegin() and cend() function in C++ STL– cbegin() returns a constant random access iterator which points to the beginning of the list. 
-// cend() returns a constant random access iterator which points to the end of the list.
-// list crbegin() and crend() function in C++ STL– crbegin() returns a constant reverse iterator which points to the last element of the list i.e reversed beginning of container.
-// crend() returns a constant reverse iterator which points to the theoretical element preceding the first element in the list i.e. the reverse end of the list.
-// insert(pos_iter, ele_num, ele) pos_iter: iterator, ele_num: number of elements to insert, ele: value to be copied or moved to inserted elements
-// (returns pointer to newly inserted ele)
-
-//erase()
+// need to implement template type
