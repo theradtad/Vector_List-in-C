@@ -14,12 +14,17 @@ typedef struct node
 
 
 typedef struct list list;
-
+typedef struct list_vtable list_vtable;
 struct list
 {
     node* head;
     node* tail;
     int sz;
+    list_vtable *ptr_vtable;
+};
+
+struct list_vtable
+{
     int (*front)(const list *ptr_list);
     int (*back)(const list *ptr_list);
     void (*push_front)(list *ptr_list,int g);
@@ -55,7 +60,6 @@ struct list
 };
 
 void init_list(list* ptr_list);
-
 
 #endif
 

@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "list.h"
-#include "iterator.h"
+#include "list_iterator.h"
+
 
 static int front(const list *ptr_list)
 {
@@ -259,7 +260,7 @@ static void assign(list *ptr_list, int count, int value)
 {
     if(count == 0)
     {
-        ptr_list->clear(ptr_list);
+        ptr_list->ptr_vtable->clear(ptr_list);
         return;
     }
     node* cur = ptr_list->head;
@@ -444,7 +445,7 @@ static void resize(list *ptr_list, int count, int value)
 {
     if(count == 0)
     {
-        ptr_list->clear(ptr_list);
+        ptr_list->ptr_vtable->clear(ptr_list);
         return;
     }
 
@@ -665,26 +666,26 @@ static void merge(list *ptr_list,list *ptr_list2)
     {
         if(cur1->val < cur2->val)
         {
-            l3.push_back(&l3,cur1->val);
+            l3.ptr_vtable->push_back(&l3,cur1->val);
             cur1 = cur1->next;  
         }
         else
         {
-            l3.push_back(&l3,cur2->val);
+            l3.ptr_vtable->push_back(&l3,cur2->val);
             cur2 = cur2->next; 
         }
     }
     while(cur1 != NULL)
     {
-        l3.push_back(&l3,cur1->val);
+        l3.ptr_vtable->push_back(&l3,cur1->val);
         cur1 = cur1->next;   
     }
     while (cur2 != NULL)
     {
-        l3.push_back(&l3,cur2->val);
+        l3.ptr_vtable->push_back(&l3,cur2->val);
         cur2 = cur2->next;
     }
-    ptr_list2->clear(ptr_list2);
+    ptr_list2->ptr_vtable->clear(ptr_list2);
 
     node* temp;
     temp = ptr_list->head;
@@ -694,7 +695,7 @@ static void merge(list *ptr_list,list *ptr_list2)
     ptr_list->tail = l3.tail;
     l3.tail = temp;
 
-    l3.clear(&l3);
+    l3.ptr_vtable->clear(&l3);
 }
 
 static void splice(list *ptr_list, iterator_list iter_ptr, list *ptr_list2)
@@ -863,41 +864,46 @@ static iterator_list crend(list *ptr_list)
     return temp;
 }
 
+static list_vtable ptr_vtbl_list =
+{
+    front,
+    back,
+    push_front,
+    push_back,
+    pop_front,
+    pop_back,
+    empty,
+    insert,
+    erase,
+    assign, 
+    remove_lst,
+    remove_if,
+    reverse,
+    size,
+    resize,
+    sort,
+    clear,
+    unique,
+    swap,
+    emplace_front,
+    emplace_back,
+    merge,
+    splice,
+    emplace,
+    begin,
+    end,
+    rbegin,
+    rend,
+    cbegin,
+    cend,
+    crbegin,
+    crend
+};
+
 void init_list(list *ptr_list)
 {
     ptr_list->head = NULL;
     ptr_list->tail = NULL;
     ptr_list->sz = 0;
-    ptr_list->front = front;
-    ptr_list->back = back;
-    ptr_list->push_front = push_front;
-    ptr_list->push_back = push_back;
-    ptr_list->pop_front = pop_front;
-    ptr_list->pop_back = pop_back;
-    ptr_list->empty = empty;
-    ptr_list->insert = insert;
-    ptr_list->erase = erase;
-    ptr_list->assign = assign; 
-    ptr_list->remove = remove_lst;
-    ptr_list->remove_if = remove_if;
-    ptr_list->reverse = reverse;
-    ptr_list->size = size;
-    ptr_list->resize = resize;
-    ptr_list->sort = sort;
-    ptr_list->clear = clear;
-    ptr_list->swap = swap;
-    ptr_list->unique = unique;
-    ptr_list->emplace_front = emplace_front;
-    ptr_list->emplace_back = emplace_back;
-    ptr_list->merge = merge;
-    ptr_list->splice = splice;
-    ptr_list->emplace = emplace;
-    ptr_list->begin = begin;
-    ptr_list->end = end;
-    ptr_list->rbegin = rbegin;
-    ptr_list->rend = rend;
-    ptr_list->cbegin = cbegin;
-    ptr_list->cend = cend;
-    ptr_list->crbegin = crbegin;
-    ptr_list->crend = crend;
+    ptr_list->ptr_vtable = &ptr_vtbl_list;
 }
