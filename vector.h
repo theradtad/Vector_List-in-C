@@ -34,6 +34,7 @@ struct vector_vtable
     int *(*back)(vector *ptr_vect);
     int *(*data)(vector *ptr_vect);
     iterator_vector (*emplace)(vector *ptr_vect, iterator_vector ptr_iter, int element);
+    void (*emplace_back)(vector *ptr_vect, int element);
     iterator_vector (*begin)(vector *ptr_vect);
     iterator_vector (*end)(vector *ptr_vect);
     iterator_vector (*rbegin)(vector *ptr_vect);

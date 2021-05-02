@@ -105,6 +105,7 @@ static void insert(vector *ptr_vect, iterator_vector ptr_iter, int val)
     }
 
     ptr_vect->sz += 1;
+    ptr_vect->cap += 1;
 
     free(ptr_vect->arr);
     ptr_vect->arr = temp_arr;
@@ -201,6 +202,25 @@ static iterator_vector emplace(vector *ptr_vect, iterator_vector ptr_iter, int e
     {
         insert(ptr_vect, ptr_iter, element);
     }
+    return ptr_iter;
+}
+
+static void emplace_back(vector *ptr_vect, int element)
+{
+    if (ptr_vect->sz < ptr_vect->cap)
+    {
+        int position = ptr_vect->sz;
+        ptr_vect->arr[position] = element;
+        ptr_vect->sz += 1;
+    }
+    else if (ptr_vect->sz == ptr_vect->cap)
+    {
+        ptr_vect->arr = realloc(ptr_vect->arr, sizeof(int) * (ptr_vect->sz + 1));
+        int position = ptr_vect->sz;
+        ptr_vect->arr[position] = element;
+        ptr_vect->sz += 1;
+        ptr_vect->cap += 1;
+    }
 }
 
 static iterator_vector begin(vector *ptr_vect)
@@ -295,6 +315,7 @@ void init_vector_vtable(vector_vtable *ptr_vtable)
     ptr_vtable->back = back;
     ptr_vtable->data = data;
     ptr_vtable->emplace = emplace;
+    ptr_vtable->emplace_back = emplace_back;
     ptr_vtable->begin = begin;
     ptr_vtable->end = end;
     ptr_vtable->rbegin = rbegin;
