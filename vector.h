@@ -12,6 +12,11 @@ struct vector
     int *arr;
     int sz;
     int cap;
+    vector_vtable *ptr_vtable;
+};
+
+struct vector_vtable
+{
     int (*size)(vector *ptr_vect);
     int (*capacity)(vector *ptr_vect);
     void (*resize)(vector *ptr_vect, int n, int val);
@@ -40,6 +45,7 @@ struct vector
 };
 
 void init_vector(vector *ptr_vect);
+void init_vector_vtable(vector_vtable *ptr_vtable);
 #endif
 
 //reserve

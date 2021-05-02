@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "vector.h"
 
+vector_vtable vector_vtbl;
+
 static int size(vector *ptr_vect)
 {
     return ptr_vect->sz;
@@ -178,12 +180,12 @@ static void swap(vector *ptr_vect1, vector *ptr_vect2)
     *ptr_vect2 = temp;
 }
 
-int *data(vector *ptr_vect)
+static int *data(vector *ptr_vect)
 {
     return ptr_vect->arr;
 }
 
-iterator_vector emplace(vector *ptr_vect, iterator_vector ptr_iter, int element)
+static iterator_vector emplace(vector *ptr_vect, iterator_vector ptr_iter, int element)
 {
     if (ptr_vect->sz < ptr_vect->cap)
     {
@@ -201,7 +203,7 @@ iterator_vector emplace(vector *ptr_vect, iterator_vector ptr_iter, int element)
     }
 }
 
-iterator_vector begin(vector *ptr_vect)
+static iterator_vector begin(vector *ptr_vect)
 {
     iterator_vector it;
     init_iterator_vector_fwd(&it, ptr_vect);
@@ -209,7 +211,7 @@ iterator_vector begin(vector *ptr_vect)
     return it;
 }
 
-iterator_vector end(vector *ptr_vect)
+static iterator_vector end(vector *ptr_vect)
 {
     iterator_vector it;
     init_iterator_vector_fwd(&it, ptr_vect);
@@ -223,7 +225,7 @@ iterator_vector end(vector *ptr_vect)
     return it;
 }
 
-iterator_vector rbegin(vector *ptr_vect)
+static iterator_vector rbegin(vector *ptr_vect)
 {
     iterator_vector it;
     init_iterator_vector_rev(&it, ptr_vect);
@@ -231,7 +233,7 @@ iterator_vector rbegin(vector *ptr_vect)
     return it;
 }
 
-iterator_vector rend(vector *ptr_vect)
+static iterator_vector rend(vector *ptr_vect)
 {
     iterator_vector it;
     init_iterator_vector_rev(&it, ptr_vect);
@@ -240,7 +242,7 @@ iterator_vector rend(vector *ptr_vect)
     return it;
 }
 
-iterator_vector cbegin(vector *ptr_vect)
+static iterator_vector cbegin(vector *ptr_vect)
 {
     iterator_vector it;
     init_iterator_vector_fwd(&it, ptr_vect);
@@ -248,7 +250,7 @@ iterator_vector cbegin(vector *ptr_vect)
     return it;
 }
 
-iterator_vector cend(vector *ptr_vect)
+static iterator_vector cend(vector *ptr_vect)
 {
     iterator_vector it;
     init_iterator_vector_fwd(&it, ptr_vect);
@@ -257,7 +259,7 @@ iterator_vector cend(vector *ptr_vect)
     return it;
 }
 
-iterator_vector crbegin(vector *ptr_vect)
+static iterator_vector crbegin(vector *ptr_vect)
 {
     iterator_vector it;
     init_iterator_vector_rev(&it, ptr_vect);
@@ -265,7 +267,7 @@ iterator_vector crbegin(vector *ptr_vect)
     return it;
 }
 
-iterator_vector crend(vector *ptr_vect)
+static iterator_vector crend(vector *ptr_vect)
 {
     iterator_vector it;
     init_iterator_vector_rev(&it, ptr_vect);
@@ -274,34 +276,40 @@ iterator_vector crend(vector *ptr_vect)
     return it;
 }
 
+void init_vector_vtable(vector_vtable *ptr_vtable)
+{
+    ptr_vtable->size = size;
+    ptr_vtable->capacity = capacity;
+    ptr_vtable->resize = resize;
+    ptr_vtable->empty = empty;
+    ptr_vtable->shrink_to_fit = shrink_to_fit;
+    ptr_vtable->assign = assign;
+    ptr_vtable->push_back = push_back;
+    ptr_vtable->pop_back = pop_back;
+    ptr_vtable->insert = insert;
+    ptr_vtable->erase = erase;
+    ptr_vtable->clear = clear;
+    ptr_vtable->swap = swap;
+    ptr_vtable->at = at;
+    ptr_vtable->front = front;
+    ptr_vtable->back = back;
+    ptr_vtable->data = data;
+    ptr_vtable->emplace = emplace;
+    ptr_vtable->begin = begin;
+    ptr_vtable->end = end;
+    ptr_vtable->rbegin = rbegin;
+    ptr_vtable->rend = rend;
+    ptr_vtable->cbegin = cbegin;
+    ptr_vtable->cend = cend;
+    ptr_vtable->crbegin = crbegin;
+    ptr_vtable->crend = crend;
+}
+
 void init_vector(vector *ptr_vect)
 {
     ptr_vect->arr = NULL;
     ptr_vect->sz = 0;
     ptr_vect->cap = 0;
-    ptr_vect->size = size;
-    ptr_vect->capacity = capacity;
-    ptr_vect->resize = resize;
-    ptr_vect->empty = empty;
-    ptr_vect->shrink_to_fit = shrink_to_fit;
-    ptr_vect->assign = assign;
-    ptr_vect->push_back = push_back;
-    ptr_vect->pop_back = pop_back;
-    ptr_vect->insert = insert;
-    ptr_vect->erase = erase;
-    ptr_vect->clear = clear;
-    ptr_vect->swap = swap;
-    ptr_vect->at = at;
-    ptr_vect->front = front;
-    ptr_vect->back = back;
-    ptr_vect->data = data;
-    ptr_vect->emplace = emplace;
-    ptr_vect->begin = begin;
-    ptr_vect->end = end;
-    ptr_vect->rbegin = rbegin;
-    ptr_vect->rend = rend;
-    ptr_vect->cbegin = cbegin;
-    ptr_vect->cend = cend;
-    ptr_vect->crbegin = crbegin;
-    ptr_vect->crend = crend;
+    ptr_vect->ptr_vtable = &vector_vtbl;
+    init_vector_vtable(&vector_vtbl);
 }
