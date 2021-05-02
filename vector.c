@@ -138,9 +138,7 @@ static void clear(vector *ptr_vect)
     ptr_vect->sz = 0;
 }
 
-//at,front and back must return reference actually.so doesnt make sense to implement here.
-//instead we could return the address of the location and access it using a pointer.
-static int at(vector *ptr_vect, int position)
+static int *at(vector *ptr_vect, int position)
 {
     if (ptr_vect->sz <= position || position < 0)
     {
@@ -148,7 +146,7 @@ static int at(vector *ptr_vect, int position)
         exit(-1);
     }
 
-    return ptr_vect->arr[position];
+    return &ptr_vect->arr[position];
 }
 
 static int *front(vector *ptr_vect)
@@ -185,6 +183,24 @@ int *data(vector *ptr_vect)
     return ptr_vect->arr;
 }
 
+iterator_vector emplace(vector *ptr_vect, iterator_vector ptr_iter, int element)
+{
+    if (ptr_vect->sz < ptr_vect->cap)
+    {
+        int position = ptr_iter.index;
+        for (int i = ptr_vect->sz; i > position; --i)
+        {
+            ptr_vect->arr[i] = ptr_vect->arr[i - 1];
+        }
+        ptr_vect->arr[position] = element;
+        ptr_vect->sz += 1;
+    }
+    else if (ptr_vect->sz == ptr_vect->cap)
+    {
+        insert(ptr_vect, ptr_iter, element);
+    }
+}
+
 iterator_vector begin(vector *ptr_vect)
 {
     iterator_vector it;
@@ -197,7 +213,12 @@ iterator_vector end(vector *ptr_vect)
 {
     iterator_vector it;
     init_iterator_vector_fwd(&it, ptr_vect);
-    it.index = it.ptr_vector->sz - 1;
+
+    if (it.ptr_vector->sz == 0)
+        it.index = -1;
+    else
+        it.index = it.ptr_vector->sz - 1;
+
     it.is_const = false;
     return it;
 }
@@ -274,12 +295,13 @@ void init_vector(vector *ptr_vect)
     ptr_vect->front = front;
     ptr_vect->back = back;
     ptr_vect->data = data;
+    ptr_vect->emplace = emplace;
     ptr_vect->begin = begin;
     ptr_vect->end = end;
     ptr_vect->rbegin = rbegin;
     ptr_vect->rend = rend;
     ptr_vect->cbegin = cbegin;
     ptr_vect->cend = cend;
-    ptr_vect->cbegin = crbegin;
-    ptr_vect->cend = crend;
+    ptr_vect->crbegin = crbegin;
+    ptr_vect->crend = crend;
 }

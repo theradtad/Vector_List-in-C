@@ -5,6 +5,7 @@
 #include <stdbool.h>
 
 typedef struct vector vector;
+typedef struct vector_vtable vector_vtable;
 
 struct vector
 {
@@ -23,16 +24,19 @@ struct vector
     void (*erase)(vector *ptr_vect, iterator_vector ptr_iter);
     void (*clear)(vector *ptr_vect);
     void (*swap)(vector *ptr_vect1, vector *ptr_vect2);
-    int (*at)(vector *ptr_vect, int position);
+    int *(*at)(vector *ptr_vect, int position);
     int *(*front)(vector *ptr_vect);
     int *(*back)(vector *ptr_vect);
     int *(*data)(vector *ptr_vect);
+    iterator_vector (*emplace)(vector *ptr_vect, iterator_vector ptr_iter, int element);
     iterator_vector (*begin)(vector *ptr_vect);
     iterator_vector (*end)(vector *ptr_vect);
     iterator_vector (*rbegin)(vector *ptr_vect);
     iterator_vector (*rend)(vector *ptr_vect);
     iterator_vector (*cbegin)(vector *ptr_vect);
     iterator_vector (*cend)(vector *ptr_vect);
+    iterator_vector (*crbegin)(vector *ptr_vect);
+    iterator_vector (*crend)(vector *ptr_vect);
 };
 
 void init_vector(vector *ptr_vect);
@@ -43,4 +47,3 @@ void init_vector(vector *ptr_vect);
 // erase, resize and assign being polymorphic
 //swap
 // emplace and emplace_back
-

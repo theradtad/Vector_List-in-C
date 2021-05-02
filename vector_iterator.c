@@ -20,18 +20,25 @@ void prev(iterator_vector *iter_ptr)
 
 bool compare(iterator_vector *iter_ptr1, iterator_vector *iter_ptr2)
 {
-    if (iter_ptr1->type_of_movement == 'F')
+    if (iter_ptr1->ptr_vector == iter_ptr2->ptr_vector)
     {
-        if (iter_ptr1->index != iter_ptr2->index + 1)
-            return 0;
-        return 1;
+        if (iter_ptr1->ptr_vector->sz == 0)
+            return true;
+        if (iter_ptr1->type_of_movement == 'F')
+        {
+            if (iter_ptr1->index != iter_ptr2->index + 1)
+                return 0;
+            return 1;
+        }
+        else
+        {
+            if (iter_ptr1->index != iter_ptr2->index - 1)
+                return 0;
+            return 1;
+        }
     }
     else
-    {
-        if (iter_ptr1->index != iter_ptr2->index - 1)
-            return 0;
-        return 1;
-    }
+        return true;
 }
 
 void init_iterator_vector_fwd(iterator_vector *iter_ptr, vector *ptr_vector)
