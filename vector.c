@@ -223,76 +223,59 @@ static void emplace_back(vector *ptr_vect, int element)
     }
 }
 
-static iterator_vector begin(vector *ptr_vect)
+iterator_vector *begin(vector *ptr_vect)
 {
-    iterator_vector it;
-    init_iterator_vector_fwd(&it, ptr_vect);
-    it.is_const = false;
+    iterator_vector *it = (iterator_vector *)malloc(sizeof(iterator_vector));
+    init_iterator_vector_fwd(it, ptr_vect, 'H');
     return it;
 }
 
-static iterator_vector end(vector *ptr_vect)
+iterator_vector *end(vector *ptr_vect)
 {
-    iterator_vector it;
-    init_iterator_vector_fwd(&it, ptr_vect);
-
-    if (it.ptr_vector->sz == 0)
-        it.index = -1;
-    else
-        it.index = it.ptr_vector->sz - 1;
-
-    it.is_const = false;
+    iterator_vector *it = (iterator_vector *)malloc(sizeof(iterator_vector));
+    init_iterator_vector_fwd(it, ptr_vect, 'T');
     return it;
 }
 
-static iterator_vector rbegin(vector *ptr_vect)
+iterator_vector *rbegin(vector *ptr_vect)
 {
-    iterator_vector it;
-    init_iterator_vector_rev(&it, ptr_vect);
-    it.is_const = false;
+    iterator_vector *it = (iterator_vector *)malloc(sizeof(iterator_vector));
+    init_iterator_vector_rev(it, ptr_vect, 'T');
     return it;
 }
 
-static iterator_vector rend(vector *ptr_vect)
+iterator_vector *rend(vector *ptr_vect)
 {
-    iterator_vector it;
-    init_iterator_vector_rev(&it, ptr_vect);
-    it.is_const = false;
-    it.index = 0;
+    iterator_vector *it = (iterator_vector *)malloc(sizeof(iterator_vector));
+    init_iterator_vector_rev(it, ptr_vect, 'H');
     return it;
 }
 
-static iterator_vector cbegin(vector *ptr_vect)
+iterator_vector *cbegin(vector *ptr_vect)
 {
-    iterator_vector it;
-    init_iterator_vector_fwd(&it, ptr_vect);
-    it.is_const = true;
+    iterator_vector *it = (iterator_vector *)malloc(sizeof(iterator_vector));
+    init_iterator_vector_const(it, ptr_vect, 'H');
     return it;
 }
 
-static iterator_vector cend(vector *ptr_vect)
+iterator_vector *cend(vector *ptr_vect)
 {
-    iterator_vector it;
-    init_iterator_vector_fwd(&it, ptr_vect);
-    it.index = it.ptr_vector->sz - 1;
-    it.is_const = true;
+    iterator_vector *it = (iterator_vector *)malloc(sizeof(iterator_vector));
+    init_iterator_vector_const(it, ptr_vect, 'T');
     return it;
 }
 
-static iterator_vector crbegin(vector *ptr_vect)
+iterator_vector *crbegin(vector *ptr_vect)
 {
-    iterator_vector it;
-    init_iterator_vector_rev(&it, ptr_vect);
-    it.is_const = true;
+    iterator_vector *it = (iterator_vector *)malloc(sizeof(iterator_vector));
+    init_iterator_vector_const_rev(it, ptr_vect, 'T');
     return it;
 }
 
-static iterator_vector crend(vector *ptr_vect)
+iterator_vector *crend(vector *ptr_vect)
 {
-    iterator_vector it;
-    init_iterator_vector_rev(&it, ptr_vect);
-    it.is_const = true;
-    it.index = 0;
+    iterator_vector *it = (iterator_vector *)malloc(sizeof(iterator_vector));
+    init_iterator_vector_const_rev(it, ptr_vect, 'H');
     return it;
 }
 

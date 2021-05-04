@@ -35,14 +35,14 @@ struct vector_vtable
     int *(*data)(vector *ptr_vect);
     iterator_vector (*emplace)(vector *ptr_vect, iterator_vector ptr_iter, int element);
     void (*emplace_back)(vector *ptr_vect, int element);
-    iterator_vector (*begin)(vector *ptr_vect);
-    iterator_vector (*end)(vector *ptr_vect);
-    iterator_vector (*rbegin)(vector *ptr_vect);
-    iterator_vector (*rend)(vector *ptr_vect);
-    iterator_vector (*cbegin)(vector *ptr_vect);
-    iterator_vector (*cend)(vector *ptr_vect);
-    iterator_vector (*crbegin)(vector *ptr_vect);
-    iterator_vector (*crend)(vector *ptr_vect);
+    iterator_vector *(*begin)(vector *ptr_vect);
+    iterator_vector *(*end)(vector *ptr_vect);
+    iterator_vector *(*rbegin)(vector *ptr_vect);
+    iterator_vector *(*rend)(vector *ptr_vect);
+    iterator_vector *(*cbegin)(vector *ptr_vect);
+    iterator_vector *(*cend)(vector *ptr_vect);
+    iterator_vector *(*crbegin)(vector *ptr_vect);
+    iterator_vector *(*crend)(vector *ptr_vect);
 };
 
 void init_vector(vector *ptr_vect);
