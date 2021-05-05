@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "list.h"
-#include "list_iterator.h"
 
 
 static int front(const list *ptr_list)
@@ -138,7 +137,7 @@ static bool empty(const list *ptr_list)
 
 void insert(list *ptr_list, iterator_list iter_ptr,int num_ele, int ele) //if it's called on begin() add before element, if called on end() add after element
 {
-    if(iter_ptr.type != 'F')
+    if(iter_ptr.base_iterator.type != 'F')
     {
         fprintf(stderr,"Error: Incompatible Iterator for Insert\n");
         exit(-1);
@@ -158,7 +157,7 @@ void insert(list *ptr_list, iterator_list iter_ptr,int num_ele, int ele) //if it
         ++ptr_list->sz;
     }
 
-    if(iter_ptr.fwd_or_back == 'H')
+    if(iter_ptr.base_iterator.type_of_movement == 'H')
     {
         node* prev_ele = prev->prev;
         while(i < num_ele)
@@ -214,9 +213,9 @@ void erase(list *ptr_list, iterator_list iter_ptr)
     if(cur == NULL)
         return ;
     
-    if(iter_ptr.type == 'F')
+    if(iter_ptr.base_iterator.type == 'F')
     {
-        if(iter_ptr.fwd_or_back == 'T')
+        if(iter_ptr.base_iterator.type_of_movement == 'T')
         {
             fprintf(stderr, "Error: End Iterator passed to erase\n");
             exit(-1);
@@ -243,7 +242,7 @@ void erase(list *ptr_list, iterator_list iter_ptr)
         }
     }
 
-    else if(iter_ptr.type == 'R')
+    else if(iter_ptr.base_iterator.type == 'R')
     {
         fprintf(stderr, "Error: Reverse Iterator passed to erase\n");
         exit(-1);
@@ -552,7 +551,7 @@ static void sort(list *ptr_list)
 
 static void swap(list *ptr_list,list *ptr_list2)
 {
-    //check if same type
+    //check if same base_iterator.type
     if(ptr_list->sz != ptr_list2->sz)
     {
         fprintf(stderr, "Error: List of different sizes \n");
@@ -700,7 +699,7 @@ static void merge(list *ptr_list,list *ptr_list2)
 
 static void splice(list *ptr_list, iterator_list iter_ptr, list *ptr_list2)
 {
-    if(iter_ptr.type != 'F')
+    if(iter_ptr.base_iterator.type != 'F')
     {
         fprintf(stderr,"Error: Incompatible Iterator for Splice\n");
         exit(-1);
@@ -710,7 +709,7 @@ static void splice(list *ptr_list, iterator_list iter_ptr, list *ptr_list2)
         return;
     }
 
-    if(iter_ptr.fwd_or_back == 'H')
+    if(iter_ptr.base_iterator.type_of_movement == 'H')
     {
         if(ptr_list->head != NULL)
         {
@@ -747,9 +746,9 @@ static void splice(list *ptr_list, iterator_list iter_ptr, list *ptr_list2)
     }
 }
 
-static iterator_list emplace(list *ptr_list, iterator_list iter_ptr, int ele)
+static iterator_list* emplace(list *ptr_list, iterator_list iter_ptr, int ele)
 {
-    if(iter_ptr.type != 'F')
+    if(iter_ptr.base_iterator.type != 'F')
     {
         fprintf(stderr,"Error: Incompatible Iterator for Emplace\n");
         exit(-1);
@@ -765,12 +764,12 @@ static iterator_list emplace(list *ptr_list, iterator_list iter_ptr, int ele)
         ptr_list->tail = temp;
         ++ptr_list->sz;
 
-        iterator_list it;
-        init_iterator_list_fwd(&it, ptr_list, 'H');
+        iterator_list *it = (iterator_list*)malloc(sizeof(iterator_list));
+        init_iterator_list_fwd(it, ptr_list, 'H');
         return it;
     }
 
-    if(iter_ptr.fwd_or_back == 'H')
+    if(iter_ptr.base_iterator.type_of_movement == 'H')
     {
         node *temp = (node*)malloc(sizeof(struct node));
         temp->val = ele;
@@ -783,9 +782,9 @@ static iterator_list emplace(list *ptr_list, iterator_list iter_ptr, int ele)
         prev->prev = temp;
         ++ptr_list->sz;
 
-        iterator_list it;
-        init_iterator_list_fwd(&it, ptr_list, 'H');
-        it.index = temp;
+        iterator_list *it = (iterator_list*)malloc(sizeof(iterator_list));
+        init_iterator_list_fwd(it, ptr_list, 'H');
+        it->index = temp;
         return it;
     }
     else
@@ -801,66 +800,66 @@ static iterator_list emplace(list *ptr_list, iterator_list iter_ptr, int ele)
         prev->next = temp;
         ++ptr_list->sz;
 
-        iterator_list it;
-        init_iterator_list_fwd(&it, ptr_list, 'H');
-        it.index = temp;
+        iterator_list *it = (iterator_list*)malloc(sizeof(iterator_list));
+        init_iterator_list_fwd(it, ptr_list, 'H');
+        it->index = temp;
         return it;
     }
 }
 
-static iterator_list begin(list *ptr_list)
+static iterator_list* begin(list *ptr_list)
 {
-    iterator_list temp;
-    init_iterator_list_fwd(&temp, ptr_list, 'H');
+    iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
+    init_iterator_list_fwd(temp, ptr_list, 'H');
     return temp;
 }
 
-static iterator_list end(list *ptr_list)
+static iterator_list* end(list *ptr_list)
 {
-    iterator_list temp;
-    init_iterator_list_fwd(&temp, ptr_list, 'T');
+    iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
+    init_iterator_list_fwd(temp, ptr_list, 'T');
     return temp;
 }
 
-static iterator_list rbegin(list *ptr_list)
+static iterator_list* rbegin(list *ptr_list)
 {
-    iterator_list temp;
-    init_iterator_list_rev(&temp, ptr_list, 'T');
+    iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
+    init_iterator_list_rev(temp, ptr_list, 'T');
     return temp;
 }
 
-static iterator_list rend(list *ptr_list)
+static iterator_list* rend(list *ptr_list)
 {
-    iterator_list temp;
-    init_iterator_list_rev(&temp, ptr_list, 'H');
+    iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
+    init_iterator_list_rev(temp, ptr_list, 'H');
     return temp;
 }
 
-static iterator_list cbegin(list *ptr_list)
+static iterator_list* cbegin(list *ptr_list)
 {
-    iterator_list temp;
-    init_iterator_list_const(&temp, ptr_list, 'H');
+    iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
+    init_iterator_list_const(temp, ptr_list, 'H');
     return temp;
 }
 
-static iterator_list cend(list *ptr_list)
+static iterator_list* cend(list *ptr_list)
 {
-    iterator_list temp;
-    init_iterator_list_const(&temp, ptr_list, 'T');
+    iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
+    init_iterator_list_const(temp, ptr_list, 'T');
     return temp;
 }
 
-static iterator_list crbegin(list *ptr_list)
+static iterator_list* crbegin(list *ptr_list)
 {
-    iterator_list temp;
-    init_iterator_list_const_rev(&temp, ptr_list, 'T');
+    iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
+    init_iterator_list_const_rev(temp, ptr_list, 'T');
     return temp;
 }
 
-static iterator_list crend(list *ptr_list)
+static iterator_list* crend(list *ptr_list)
 {
-    iterator_list temp;
-    init_iterator_list_const_rev(&temp, ptr_list, 'H');
+    iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
+    init_iterator_list_const_rev(temp, ptr_list, 'H');
     return temp;
 }
 

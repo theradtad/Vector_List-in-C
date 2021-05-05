@@ -2,8 +2,9 @@
 #define LIST_H
 
 #include <stdbool.h>
+#include "list_iterator.h"
 
-typedef struct iterator_list iterator_list;
+typedef iterator_list iterator_list;
 
 typedef struct node
 {
@@ -48,15 +49,15 @@ struct list_vtable
     void (*emplace_back)(list *ptr_list,int g);
     void (*merge)(list *ptr_list,list *ptr_list2);
     void (*splice)(list *ptr_list, iterator_list iter_ptr, list *ptr_list2);
-    iterator_list (*emplace)(list *ptr_list, iterator_list iter_ptr, int ele);
-    iterator_list (*begin)(list *ptr_list);
-    iterator_list (*end)(list *ptr_list);
-    iterator_list (*rbegin)(list *ptr_list);
-    iterator_list (*rend)(list *ptr_list);
-    iterator_list (*cbegin)(list *ptr_list);
-    iterator_list (*cend)(list *ptr_list);
-    iterator_list (*crbegin)(list *ptr_list);
-    iterator_list (*crend)(list *ptr_list);
+    iterator_list* (*emplace)(list *ptr_list, iterator_list iter_ptr, int ele);
+    iterator_list* (*begin)(list *ptr_list);
+    iterator_list* (*end)(list *ptr_list);
+    iterator_list* (*rbegin)(list *ptr_list);
+    iterator_list* (*rend)(list *ptr_list);
+    iterator_list* (*cbegin)(list *ptr_list);
+    iterator_list* (*cend)(list *ptr_list);
+    iterator_list* (*crbegin)(list *ptr_list);
+    iterator_list* (*crend)(list *ptr_list);
 };
 
 void init_list(list* ptr_list);

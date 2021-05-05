@@ -31,20 +31,22 @@ static bool compare(iterator *iter_ptr1, iterator *iter_ptr2)
     return true;
 }
 
-void reset(iterator *iter_ptr)
+static void reset(iterator *iter_ptr)
 {
     ;
 }
 
-static iterator_vtable iterator_vtbl =
-    {
-        element,
-        next,
-        prev,
-        is_begin,
-        is_end,
-        compare,
-        reset};
+static iterator_vtable iterator_vtbl = 
+{
+    element,
+    next,
+    prev,
+    is_begin,
+    is_end,
+    compare,
+    reset
+};
+
 
 void init_base_iterator(iterator *iter_ptr, char type, char type_of_movement)
 {

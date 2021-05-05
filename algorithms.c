@@ -1,7 +1,86 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "iterator.h"
-#include <limits.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<limits.h>
+#include "algorithms.h"
+
+void reverse(iterator* start, iterator* end)
+{
+    int sz = 0;
+    for(;!(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
+    {
+        ++sz;
+    }
+
+    start->ptr_vtable->reset(start);
+    for(int i=0;i<(sz/2);++i)
+    {
+        int temp = *(start->ptr_vtable->element(start));
+        *(start->ptr_vtable->element(start)) = *(end->ptr_vtable->element(end));
+        *(end->ptr_vtable->element(end)) = temp;
+    }
+
+    end->ptr_vtable->reset(end);
+    start->ptr_vtable->reset(start);
+}
+
+int *min_element(iterator* start, iterator* end)
+{
+    int maxi = INT_MAX;
+    int *min = &maxi;
+
+    for(;!(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
+    {
+        if(*(start->ptr_vtable->element(start)) < *min)
+        {
+            min = (start->ptr_vtable->element(start));
+        }
+    }
+    start->ptr_vtable->reset(start);
+    return min;
+}
+
+int count(iterator* start, iterator* end, int x)
+{
+    int cnt = 0;
+    for(;!(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
+    {
+        if(*(start->ptr_vtable->element(start)) == x)
+        {
+            ++cnt;
+        }
+    }
+    start->ptr_vtable->reset(start);
+    return cnt;
+}
+
+
+void sort(iterator *start, iterator *end)
+{
+    int i=0;
+    while(!(start->ptr_vtable->is_end(start)))
+    {
+        int *cur = (start->ptr_vtable->element(start));
+        start->ptr_vtable->next(start);
+
+        while (!(start->ptr_vtable->is_end(start)))
+        {
+            if(*(start->ptr_vtable->element(start)) < *cur)
+            {
+                int temp = *cur;
+                *cur = *(start->ptr_vtable->element(start));
+                *(start->ptr_vtable->element(start)) = temp;
+            }
+            start->ptr_vtable->next(start);
+        }
+        start->ptr_vtable->reset(start);
+        for(int j=0;j<=i;++j)
+        {
+            start->ptr_vtable->next(start);
+        }
+        ++i;
+    }
+    start->ptr_vtable->reset(start);
+}
 
 int *max_element(iterator *start, iterator *end)
 {
@@ -22,23 +101,6 @@ int *max_element(iterator *start, iterator *end)
     }
     start->ptr_vtable->reset(start);
     return result;
-}
-
-void sort(iterator *start, iterator *end)
-{
-    for (; !(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
-    {
-        for (; !(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
-        {
-            if ((*(start->ptr_vtable->element(start))) < (*(start->ptr_vtable->element(start))))
-            {
-                int temp;
-                temp = *(start->ptr_vtable->element(start));
-                *(start->ptr_vtable->element(start)) = *(start->ptr_vtable->element(start));
-                *(start->ptr_vtable->element(start)) = temp;
-            }
-        }
-    }
 }
 
 void print_container(iterator *start, iterator *end)
