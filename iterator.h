@@ -5,6 +5,9 @@
 
 typedef struct iterator_vtable iterator_vtable;
 
+// base class object of type iterator.
+// type_of_movement indicates wether the index is pointing to the start of the container or the end of the container.
+// type represents if it's a forward pointer or reverse pointer.
 typedef struct
 {
     iterator_vtable *ptr_vtable;
@@ -12,6 +15,7 @@ typedef struct
     char type;
 } iterator;
 
+// structure that contains all the member functions of the iterator class.
 struct iterator_vtable
 {
     int *(*element)(iterator *iter_ptr);

@@ -9,6 +9,12 @@ typedef struct node node;
 typedef struct iterator_list_vtable iterator_list_vtable;
 typedef struct iterator_list iterator_list;
 
+
+// list iterator class: Derived class whose Base class is iterator.
+// It contains a vtable pointer to replicate concepts of OOP in C.
+// ptr_container is a pointer to the list.
+// index is a pointer to each element of the list.
+// base iterator is the object of the base class (iterator).
 struct iterator_list
 {
     iterator_list_vtable *ptr_vtable;
@@ -17,6 +23,8 @@ struct iterator_list
     node* index;
 };
 
+
+// structure that represents all the functions of the iterator_list class.
 struct iterator_list_vtable
 {
     int *(*element)(iterator_list *iter_ptr);

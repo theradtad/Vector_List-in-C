@@ -3,6 +3,7 @@
 #include "list.h"
 #include "list_iterator.h"
 
+// Returns the address of the current element to which the index points to.
 static int* element_list(iterator_list *iter_ptr)
 {
     if(iter_ptr->index != NULL)
@@ -16,6 +17,7 @@ static int* element_list(iterator_list *iter_ptr)
     }
 }
 
+// Moves the index pointer to the next element in the list.
 static void next_list(iterator_list* iter_ptr)
 {
     if(iter_ptr->index != NULL)
@@ -24,6 +26,7 @@ static void next_list(iterator_list* iter_ptr)
     }
 }
 
+// Moves the index pointer to the previous element in the list.
 static void prev_list(iterator_list* iter_ptr)
 { 
     if(iter_ptr->index != NULL)
@@ -32,6 +35,7 @@ static void prev_list(iterator_list* iter_ptr)
     }
 }
 
+// Checks if the index is NULL which would indicate the index is past the last element or before the first element.
 static bool is_begin_list(iterator_list* iter_ptr)
 {
     if(iter_ptr->index == NULL)
@@ -39,7 +43,7 @@ static bool is_begin_list(iterator_list* iter_ptr)
     return false;
 }
 
-
+// Compares two iterator objects, comparision works only if both iterator_list objects are forward iterators or both are reverse iterators.
 static bool compare_list(iterator_list* iter_ptr1, iterator_list iter_ptr2)
 {
     if(iter_ptr1->base_iterator.type != iter_ptr2.base_iterator.type)
@@ -53,6 +57,7 @@ static bool compare_list(iterator_list* iter_ptr1, iterator_list iter_ptr2)
     return false;
 }
 
+// Resets the index pointer to the initial element that it was pointing to before next or prev was called on it.
 static void reset_list(iterator_list *iter_ptr)
 {
     if(iter_ptr->base_iterator.type_of_movement == 'H')
@@ -87,6 +92,8 @@ static iterator_list_vtable iter_list_vtbl_rev =
     reset_list
 };
 
+// used to initialize a forward iterator in the list. Calls base iterators init as well.
+// The argument ch is used to indicate wether begin member function of list is calling this function or wether end member function of list is calling it. 
 void init_iterator_list_fwd(iterator_list* iter_ptr, list *ptr_container, char ch)
 {   
     if(ch == 'H')
@@ -103,6 +110,7 @@ void init_iterator_list_fwd(iterator_list* iter_ptr, list *ptr_container, char c
     iter_ptr->ptr_container = ptr_container;
 }
 
+// used to initialize the reverse iterator in list.
 void init_iterator_list_rev(iterator_list* iter_ptr, list *ptr_container, char ch)
 {
     if(ch == 'H')
@@ -119,6 +127,7 @@ void init_iterator_list_rev(iterator_list* iter_ptr, list *ptr_container, char c
     iter_ptr->ptr_container = ptr_container;
 }
 
+// used to initialize the constant forward iterator in list.
 void init_iterator_list_const(iterator_list* iter_ptr, list *ptr_container, char ch)
 {
     if(ch == 'H')
@@ -135,6 +144,7 @@ void init_iterator_list_const(iterator_list* iter_ptr, list *ptr_container, char
     iter_ptr->ptr_container = ptr_container;
 }
 
+// used to initialize the constant reverse iterator in list.
 void init_iterator_list_const_rev(iterator_list* iter_ptr, list *ptr_container, char ch)
 {
     if(ch == 'H')
