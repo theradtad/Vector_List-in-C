@@ -6,6 +6,7 @@
 
 typedef iterator_list iterator_list;
 
+// Structure that represents a node in the doubly linked list. It has prev and next pointer pointing to the previous and next element.
 typedef struct node
 {
     int val;
@@ -16,6 +17,11 @@ typedef struct node
 
 typedef struct list list;
 typedef struct list_vtable list_vtable;
+
+// Represents a doubly linked list, that is meant serve as a replication of the list container in stl.
+// Head points the first node in the doubly linked list.
+// Tail points to the last node in the doubly linked list.
+// ptr_vtable is the vtable pointer that points to all the functions of the list.
 struct list
 {
     node* head;
@@ -24,6 +30,7 @@ struct list
     list_vtable *ptr_vtable;
 };
 
+// Vtable structure that points to all functions of the list class.
 struct list_vtable
 {
     int (*front)(const list *ptr_list);
@@ -54,10 +61,6 @@ struct list_vtable
     iterator_list* (*end)(list *ptr_list);
     iterator_list* (*rbegin)(list *ptr_list);
     iterator_list* (*rend)(list *ptr_list);
-    iterator_list* (*cbegin)(list *ptr_list);
-    iterator_list* (*cend)(list *ptr_list);
-    iterator_list* (*crbegin)(list *ptr_list);
-    iterator_list* (*crend)(list *ptr_list);
 };
 
 void init_list(list* ptr_list);

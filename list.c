@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "list.h"
 
-
+// Returns the element stored at the head - the first element in the list.
 static int front(const list *ptr_list)
 {
     if(ptr_list->head != NULL)
@@ -16,6 +16,7 @@ static int front(const list *ptr_list)
     }
 }
 
+// Returns the element stored at the tail - the last element in the list.
 static int back(const list *ptr_list)
 {
     if(ptr_list->tail != NULL)
@@ -29,6 +30,7 @@ static int back(const list *ptr_list)
     }
 }
 
+// Adds an element to the front of the list.
 static void push_front(list *ptr_list,int g)
 {
     node *temp = (node*)malloc(sizeof(struct node));
@@ -52,6 +54,7 @@ static void push_front(list *ptr_list,int g)
     }
 }
 
+// Adds an element to the end of the list.
 static void push_back(list *ptr_list,int g)
 {
     node *temp = (node*)malloc(sizeof(struct node));
@@ -75,6 +78,7 @@ static void push_back(list *ptr_list,int g)
     }
 }
 
+// Deletes the first element of the list.
 static void pop_front(list *ptr_list)
 {
     if(ptr_list->head == NULL)
@@ -101,6 +105,7 @@ static void pop_front(list *ptr_list)
 
 }
 
+// Deletes the last element of the list.
 static void pop_back(list *ptr_list)
 {
     if(ptr_list->tail == NULL)
@@ -127,6 +132,7 @@ static void pop_back(list *ptr_list)
 
 }
 
+// Returns True if the list is empty, False if the list contains elements.
 static bool empty(const list *ptr_list)
 {
     if(ptr_list->sz == 0)
@@ -135,7 +141,8 @@ static bool empty(const list *ptr_list)
         return 0;
 }
 
-void insert(list *ptr_list, iterator_list iter_ptr,int num_ele, int ele) //if it's called on begin() add before element, if called on end() add after element
+// Called on an iterator, if it's called on begin() add before element, if called on end() add after element.
+void insert(list *ptr_list, iterator_list iter_ptr,int num_ele, int ele)
 {
     if(iter_ptr.base_iterator.type != 'F')
     {
@@ -207,6 +214,8 @@ void insert(list *ptr_list, iterator_list iter_ptr,int num_ele, int ele) //if it
     }
 }
 
+// Erases all the elements that occur after the current position of the iterator, 
+// including the element to which the iterator points to.
 void erase(list *ptr_list, iterator_list iter_ptr)
 {
     node *cur = iter_ptr.index;
@@ -242,19 +251,15 @@ void erase(list *ptr_list, iterator_list iter_ptr)
         }
     }
 
-    else if(iter_ptr.base_iterator.type == 'R')
+    else
     {
         fprintf(stderr, "Error: Reverse Iterator passed to erase\n");
         exit(-1);
     }
-
-    else
-    {
-        fprintf(stderr, "Error: Const Iterator passed to erase\n");
-        exit(-1);
-    }
 }
 
+// On calling this function, this list would contain count number of elements,
+// with the value that is passed as argument to the function.
 static void assign(list *ptr_list, int count, int value)
 {
     if(count == 0)
@@ -318,6 +323,7 @@ static void assign(list *ptr_list, int count, int value)
     ptr_list->sz = count;
 }
 
+// Deletes all the elements in the list that have value equal to the argument passed.
 static void remove_lst(list *ptr_list,int value)
 {
     node* cur = ptr_list->head;
@@ -366,6 +372,7 @@ static void remove_lst(list *ptr_list,int value)
     }
 }
 
+// Deletes all elements in the list, which, when passed to the function specified in the argument returns true.
 static void remove_if(list *ptr_list, bool (*fn)(int value))
 {
     node* cur = ptr_list->head;
@@ -414,6 +421,7 @@ static void remove_if(list *ptr_list, bool (*fn)(int value))
     }
 }
 
+// Reverse the linked list and hence reverses the elements present in the linked list.
 static void reverse(list *ptr_list)
 {
     node* cur = ptr_list->head;
@@ -435,11 +443,13 @@ static void reverse(list *ptr_list)
     ptr_list->head = prev;
 }
 
+// Returns the size of the linked list, which represents the number of elements present in the list.
 static int size(const list *ptr_list)
 {
     return ptr_list->sz;
 }
 
+// Resizes the list to contain exactly count number of elements with all of them having the value passed the argument.
 static void resize(list *ptr_list, int count, int value)
 {
     if(count == 0)
@@ -503,7 +513,8 @@ static void resize(list *ptr_list, int count, int value)
 
     ptr_list->sz = count;
 }
-    
+
+// Clears the list so that it contains no elements.
 static void clear(list *ptr_list)
 {
     node* cur = ptr_list->head;
@@ -522,6 +533,7 @@ static void clear(list *ptr_list)
     ptr_list->sz = 0;
 }
 
+// Sorts the list with the time complexity O(n*n).
 static void sort(list *ptr_list)
 {
     if(ptr_list->head == NULL)
@@ -549,6 +561,7 @@ static void sort(list *ptr_list)
     
 }
 
+// Swaps the content of two lists of the same size.
 static void swap(list *ptr_list,list *ptr_list2)
 {
     //check if same base_iterator.type
@@ -570,6 +583,7 @@ static void swap(list *ptr_list,list *ptr_list2)
     }
 }
 
+// Deletes all duplicate elements in a sorted list.
 static void unique(list *ptr_list)
 {
     if(ptr_list->head == NULL)
@@ -608,6 +622,7 @@ static void unique(list *ptr_list)
     }
 }
 
+// Adds an element to the front of the list.
 static void emplace_front(list *ptr_list,int g)
 {
     node *temp = (node*)malloc(sizeof(struct node));
@@ -631,6 +646,7 @@ static void emplace_front(list *ptr_list,int g)
     }
 }
 
+// Adds an element to the end of the list.
 static void emplace_back(list *ptr_list,int g)
 {
     node *temp = (node*)malloc(sizeof(struct node));
@@ -654,6 +670,7 @@ static void emplace_back(list *ptr_list,int g)
     }
 }
 
+// Merges contents of two sorted lists into the list calling the function and the other list is empty.
 static void merge(list *ptr_list,list *ptr_list2)
 {
     list l3;
@@ -697,6 +714,7 @@ static void merge(list *ptr_list,list *ptr_list2)
     l3.ptr_vtable->clear(&l3);
 }
 
+// Transfers all elements of the second list to the first after the position pointed to by the iterator_list object.
 static void splice(list *ptr_list, iterator_list iter_ptr, list *ptr_list2)
 {
     if(iter_ptr.base_iterator.type != 'F')
@@ -746,6 +764,7 @@ static void splice(list *ptr_list, iterator_list iter_ptr, list *ptr_list2)
     }
 }
 
+// Inserts a new element at the position pointed to by the iterator_list object.
 static iterator_list* emplace(list *ptr_list, iterator_list iter_ptr, int ele)
 {
     if(iter_ptr.base_iterator.type != 'F')
@@ -807,6 +826,7 @@ static iterator_list* emplace(list *ptr_list, iterator_list iter_ptr, int ele)
     }
 }
 
+// Returns a forward pointer, pointing to the first element of the list.
 static iterator_list* begin(list *ptr_list)
 {
     iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
@@ -814,6 +834,7 @@ static iterator_list* begin(list *ptr_list)
     return temp;
 }
 
+// Returns a forward pointer, pointing to the last element of the list.
 static iterator_list* end(list *ptr_list)
 {
     iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
@@ -821,6 +842,7 @@ static iterator_list* end(list *ptr_list)
     return temp;
 }
 
+// Returns a reverse pointer, pointing to the first element of the list.
 static iterator_list* rbegin(list *ptr_list)
 {
     iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
@@ -828,6 +850,7 @@ static iterator_list* rbegin(list *ptr_list)
     return temp;
 }
 
+// Returns a reverse pointer, pointing to the last element of the list.
 static iterator_list* rend(list *ptr_list)
 {
     iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
@@ -835,34 +858,7 @@ static iterator_list* rend(list *ptr_list)
     return temp;
 }
 
-static iterator_list* cbegin(list *ptr_list)
-{
-    iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
-    init_iterator_list_const(temp, ptr_list, 'H');
-    return temp;
-}
-
-static iterator_list* cend(list *ptr_list)
-{
-    iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
-    init_iterator_list_const(temp, ptr_list, 'T');
-    return temp;
-}
-
-static iterator_list* crbegin(list *ptr_list)
-{
-    iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
-    init_iterator_list_const_rev(temp, ptr_list, 'T');
-    return temp;
-}
-
-static iterator_list* crend(list *ptr_list)
-{
-    iterator_list *temp = (iterator_list*)malloc(sizeof(iterator_list));
-    init_iterator_list_const_rev(temp, ptr_list, 'H');
-    return temp;
-}
-
+// static object to initialize the vtable pointer.
 static list_vtable ptr_vtbl_list =
 {
     front,
@@ -892,13 +888,10 @@ static list_vtable ptr_vtbl_list =
     begin,
     end,
     rbegin,
-    rend,
-    cbegin,
-    cend,
-    crbegin,
-    crend
+    rend
 };
 
+// Function to initialize the list.
 void init_list(list *ptr_list)
 {
     ptr_list->head = NULL;

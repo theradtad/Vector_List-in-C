@@ -38,7 +38,5 @@ struct iterator_list_vtable
 
 void init_iterator_list_fwd(iterator_list* iter_ptr, list *ptr_container, char ch);
 void init_iterator_list_rev(iterator_list* iter_ptr, list *ptr_container, char ch);
-void init_iterator_list_const(iterator_list* iter_ptr, list *ptr_container, char ch);
-void init_iterator_list_const_rev(iterator_list* iter_ptr, list *ptr_container, char ch);
 
 #endif

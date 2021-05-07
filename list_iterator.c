@@ -47,10 +47,9 @@ static bool is_begin_list(iterator_list* iter_ptr)
 static bool compare_list(iterator_list* iter_ptr1, iterator_list iter_ptr2)
 {
     if(iter_ptr1->base_iterator.type != iter_ptr2.base_iterator.type)
-    {
-        if(!(iter_ptr1->base_iterator.type == 'F' && iter_ptr2.base_iterator.type =='C') && !(iter_ptr1->base_iterator.type == 'C' && iter_ptr2.base_iterator.type =='F') && !(iter_ptr1->base_iterator.type == 'R' && iter_ptr2.base_iterator.type =='K') && !(iter_ptr1->base_iterator.type == 'K' && iter_ptr2.base_iterator.type =='R'))  
-            fprintf(stderr, "Error: Incomparable base_iterator Types \n");
-            exit(-1);
+    {  
+        printf("Error: Incomparable base_iterator Types \n");
+        exit(-1);
     }
     if(iter_ptr1->index == iter_ptr2.index)
         return true;
@@ -122,40 +121,6 @@ void init_iterator_list_rev(iterator_list* iter_ptr, list *ptr_container, char c
     {
         iter_ptr->index = ptr_container->tail;
         init_base_iterator(&iter_ptr->base_iterator,'R','T');
-    }
-    iter_ptr->ptr_vtable = &iter_list_vtbl_rev;
-    iter_ptr->ptr_container = ptr_container;
-}
-
-// used to initialize the constant forward iterator in list.
-void init_iterator_list_const(iterator_list* iter_ptr, list *ptr_container, char ch)
-{
-    if(ch == 'H')
-    {
-        iter_ptr->index = ptr_container->head;
-        init_base_iterator(&iter_ptr->base_iterator,'C','H');
-    }
-    else
-    {
-        iter_ptr->index = ptr_container->tail;
-        init_base_iterator(&iter_ptr->base_iterator,'C','T');
-    }
-    iter_ptr->ptr_vtable = &iter_list_vtbl_fwd;
-    iter_ptr->ptr_container = ptr_container;
-}
-
-// used to initialize the constant reverse iterator in list.
-void init_iterator_list_const_rev(iterator_list* iter_ptr, list *ptr_container, char ch)
-{
-    if(ch == 'H')
-    {
-        iter_ptr->index = ptr_container->head;
-        init_base_iterator(&iter_ptr->base_iterator,'K','H');
-    }
-    else
-    {
-        iter_ptr->index = ptr_container->tail;
-        init_base_iterator(&iter_ptr->base_iterator,'K','T');
     }
     iter_ptr->ptr_vtable = &iter_list_vtbl_rev;
     iter_ptr->ptr_container = ptr_container;
