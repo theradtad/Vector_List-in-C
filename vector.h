@@ -41,10 +41,6 @@ struct vector_vtable
     iterator_vector *(*end)(vector *ptr_vect);
     iterator_vector *(*rbegin)(vector *ptr_vect);
     iterator_vector *(*rend)(vector *ptr_vect);
-    iterator_vector *(*cbegin)(vector *ptr_vect);
-    iterator_vector *(*cend)(vector *ptr_vect);
-    iterator_vector *(*crbegin)(vector *ptr_vect);
-    iterator_vector *(*crend)(vector *ptr_vect);
 };
 
 void init_vector(vector *ptr_vect);

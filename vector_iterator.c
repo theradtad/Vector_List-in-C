@@ -56,8 +56,7 @@ bool compare_vector(iterator_vector *iter_ptr1, iterator_vector iter_ptr2)
 {
     if (iter_ptr1->base_iterator.type != iter_ptr2.base_iterator.type)
     {
-        if (!(iter_ptr1->base_iterator.type == 'F' && iter_ptr2.base_iterator.type == 'C') && !(iter_ptr1->base_iterator.type == 'C' && iter_ptr2.base_iterator.type == 'F') && !(iter_ptr1->base_iterator.type == 'R' && iter_ptr2.base_iterator.type == 'K') && !(iter_ptr1->base_iterator.type == 'K' && iter_ptr2.base_iterator.type == 'R'))
-            printf("\nError: Incomparable types \n");
+        printf("\nError: Incomparable types \n");
         exit(-1);
     }
     if (iter_ptr1->index == iter_ptr2.index)
@@ -138,39 +137,5 @@ void init_iterator_vector_rev(iterator_vector *iter_ptr, vector *ptr_container, 
     {
         iter_ptr->index = ptr_container->sz - 1;
         init_base_iterator(&iter_ptr->base_iterator, 'R', 'T');
-    }
-}
-
-// used to initialize the constant forward iterator in vector.
-void init_iterator_vector_const(iterator_vector *iter_ptr, vector *ptr_container, char ch)
-{
-    iter_ptr->ptr_container = ptr_container;
-    iter_ptr->ptr_vtable = &iter_vector_vtbl_fwd;
-    if (ch == 'H')
-    {
-        iter_ptr->index = 0;
-        init_base_iterator(&iter_ptr->base_iterator, 'C', 'H');
-    }
-    else
-    {
-        iter_ptr->index = ptr_container->sz - 1;
-        init_base_iterator(&iter_ptr->base_iterator, 'C', 'T');
-    }
-}
-
-// used to initialize the constant reverse iterator in vector.
-void init_iterator_vector_const_rev(iterator_vector *iter_ptr, vector *ptr_container, char ch)
-{
-    iter_ptr->ptr_container = ptr_container;
-    iter_ptr->ptr_vtable = &iter_vector_vtbl_rev;
-    if (ch == 'H')
-    {
-        iter_ptr->index = 0;
-        init_base_iterator(&iter_ptr->base_iterator, 'K', 'H');
-    }
-    else
-    {
-        iter_ptr->index = ptr_container->sz - 1;
-        init_base_iterator(&iter_ptr->base_iterator, 'K', 'T');
     }
 }

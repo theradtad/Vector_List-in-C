@@ -277,34 +277,6 @@ iterator_vector *rend(vector *ptr_vect)
     return it;
 }
 
-iterator_vector *cbegin(vector *ptr_vect)
-{
-    iterator_vector *it = (iterator_vector *)malloc(sizeof(iterator_vector));
-    init_iterator_vector_const(it, ptr_vect, 'H');
-    return it;
-}
-
-iterator_vector *cend(vector *ptr_vect)
-{
-    iterator_vector *it = (iterator_vector *)malloc(sizeof(iterator_vector));
-    init_iterator_vector_const(it, ptr_vect, 'T');
-    return it;
-}
-
-iterator_vector *crbegin(vector *ptr_vect)
-{
-    iterator_vector *it = (iterator_vector *)malloc(sizeof(iterator_vector));
-    init_iterator_vector_const_rev(it, ptr_vect, 'T');
-    return it;
-}
-
-iterator_vector *crend(vector *ptr_vect)
-{
-    iterator_vector *it = (iterator_vector *)malloc(sizeof(iterator_vector));
-    init_iterator_vector_const_rev(it, ptr_vect, 'H');
-    return it;
-}
-
 //sets the function pointers to the corresponding functions
 void init_vector_vtable(vector_vtable *ptr_vtable)
 {
@@ -330,10 +302,6 @@ void init_vector_vtable(vector_vtable *ptr_vtable)
     ptr_vtable->end = end;
     ptr_vtable->rbegin = rbegin;
     ptr_vtable->rend = rend;
-    ptr_vtable->cbegin = cbegin;
-    ptr_vtable->cend = cend;
-    ptr_vtable->crbegin = crbegin;
-    ptr_vtable->crend = crend;
 }
 
 //initializes the vector
