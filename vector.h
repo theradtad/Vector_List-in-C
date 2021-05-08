@@ -7,6 +7,7 @@
 typedef struct vector vector;
 typedef struct vector_vtable vector_vtable;
 
+//the structure for vector
 struct vector
 {
     int *arr;
@@ -15,6 +16,7 @@ struct vector
     vector_vtable *ptr_vtable;
 };
 
+//structure for the vtable for vector that has function pointers.
 struct vector_vtable
 {
     int (*size)(vector *ptr_vect);

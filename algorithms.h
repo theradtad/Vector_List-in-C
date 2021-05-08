@@ -3,13 +3,13 @@
 
 #include "iterator.h"
 
-void reverse(iterator* start, iterator* end);
+void reverse(iterator *start, iterator *end);
 
-int *min_element(iterator* start, iterator* end);
+int *min_element(iterator *start, iterator *end);
 
 int *max_element(iterator *start, iterator *end);
 
-int count(iterator* start, iterator* end, int x);
+int count(iterator *start, iterator *end, int x);
 
 void sort(iterator *start, iterator *end);
 
