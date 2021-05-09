@@ -1,21 +1,21 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
 #include "algorithms.h"
 
 //takes in iterators pointing to start and end of container and reverses the container elements.
-void reverse(iterator* start, iterator* end)
+void reverse(iterator *start, iterator *end)
 {
     int sz = 0;
-    for(;!(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
+    for (; !(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
     {
         ++sz;
     }
 
     start->ptr_vtable->reset(start);
-    for(int i=0;i<(sz/2);++i)
+    for (int i = 0; i < (sz / 2); ++i)
     {
-        void *temp = *(start->ptr_vtable->element(start));
+        int temp = *(start->ptr_vtable->element(start));
         *(start->ptr_vtable->element(start)) = *(end->ptr_vtable->element(end));
         *(end->ptr_vtable->element(end)) = temp;
 
@@ -28,14 +28,14 @@ void reverse(iterator* start, iterator* end)
 }
 
 //returns the address of the minimum element of the container
-void **min_element(iterator* start, iterator* end)
+int *min_element(iterator *start, iterator *end)
 {
     int maxi = INT_MAX;
-    void **min = &maxi;
+    int *min = &maxi;
 
-    for(;!(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
+    for (; !(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
     {
-        if(*(start->ptr_vtable->element(start)) < *min)
+        if (*(start->ptr_vtable->element(start)) < *min)
         {
             min = (start->ptr_vtable->element(start));
         }
@@ -45,12 +45,12 @@ void **min_element(iterator* start, iterator* end)
 }
 
 //returns the count of an element in the container
-int count(iterator* start, iterator* end, void *x)
+int count(iterator *start, iterator *end, int x)
 {
     int cnt = 0;
-    for(;!(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
+    for (; !(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
     {
-        if(*(start->ptr_vtable->element(start)) == x)
+        if (*(start->ptr_vtable->element(start)) == x)
         {
             ++cnt;
         }
@@ -62,24 +62,24 @@ int count(iterator* start, iterator* end, void *x)
 //sorts the container elements in ascending order
 void sort(iterator *start, iterator *end)
 {
-    int i=0;
-    while(!(start->ptr_vtable->is_end(start)))
+    int i = 0;
+    while (!(start->ptr_vtable->is_end(start)))
     {
-        void **cur = (start->ptr_vtable->element(start));
+        int *cur = (start->ptr_vtable->element(start));
         start->ptr_vtable->next(start);
 
         while (!(start->ptr_vtable->is_end(start)))
         {
-            if(*(start->ptr_vtable->element(start)) < *cur)
+            if (*(start->ptr_vtable->element(start)) < *cur)
             {
-                void *temp = *cur;
+                int temp = *cur;
                 *cur = *(start->ptr_vtable->element(start));
                 *(start->ptr_vtable->element(start)) = temp;
             }
             start->ptr_vtable->next(start);
         }
         start->ptr_vtable->reset(start);
-        for(int j=0;j<=i;++j)
+        for (int j = 0; j <= i; ++j)
         {
             start->ptr_vtable->next(start);
         }
@@ -89,19 +89,36 @@ void sort(iterator *start, iterator *end)
 }
 
 //retunrs the address of the max element in the container
-void **max_element(iterator *start, iterator *end)
+int *max_element(iterator *start, iterator *end)
 {
-    void **max = (start->ptr_vtable->element(start));
+    int max_ele = INT_MIN;
+    int *result;
 
-    for(;!(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
+    // iterator *it;
+    // start->ptr_vtable->copy(start, it);
+    // printf("%d\n", *(it->ptr_vtable->element(it)));
+
+    for (; !(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
     {
-        if(*(start->ptr_vtable->element(start)) > *max)
+        if (*(start->ptr_vtable->element(start)) > max_ele)
         {
-            max = (start->ptr_vtable->element(start));
+            result = start->ptr_vtable->element(start);
+            max_ele = *(start->ptr_vtable->element(start));
         }
     }
     start->ptr_vtable->reset(start);
-    return max;
+    return result;
+}
+
+//prints the container elements
+void print_container(iterator *start, iterator *end)
+{
+    for (; !(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
+    {
+        printf("%d", *(start->ptr_vtable->element(start)));
+    }
+    start->ptr_vtable->reset(start);
+    printf("\n");
 }
 
 //returns the sum of elements of the container added to the inital_sum passed to this function
@@ -110,14 +127,14 @@ int accumulate(iterator *start, iterator *end, int initial_sum)
     int result = initial_sum;
     for (; !(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
     {
-        result += *((int *)(start->ptr_vtable->element(start)));
+        result += *(start->ptr_vtable->element(start));
     }
     start->ptr_vtable->reset(start);
     return result;
 }
 
 //replaces every occurence of a certain element by another element
-void replace(iterator *start, iterator *end, void *old_value, void *new_value)
+void replace(iterator *start, iterator *end, int old_value, int new_value)
 {
     for (; !(start->ptr_vtable->is_end(start)); start->ptr_vtable->next(start))
     {
